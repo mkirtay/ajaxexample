@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="style.css">
+    <title>Ajax Example</title>
+</head>
+<body>
+<div class="news-container"></div>
+
+<script src="jquery.js"></script>
+<script>
+    $(document).ready(function () {
+
+        console.log( location.href )
+
+        $.ajax({
+            type: "GET",
+            url: "https://jsonplaceholder.typicode.com/posts",
+            dataType: "json",
+            success: function (result) {
+                for( var i = 0; i < result.length; i++ ){
+                    $('.news-container').append(
+                        '<div class="news">' +
+                            '<h1 class="news__title">'+ result[i].title + '</h1>' +
+                            '<p class="news__text">' + result[i].body + '</p>' +
+                            ' <a class="detail-button" href="wwwww">Detaylar</a> </div>' ) 
+                }
+            }
+        });
+
+        $(document).on('click', '.detail-button', function (e) {
+            e.preventDefault();
+            var thisButton = $(this);
+            thisButton.prop('disabled', true);
+            $.ajax({
+                type: "GET",
+                url: "https://jsonplaceholder.typicode.com/comments",
+                dataType: "json",
+                success: function (content) {
+                    thisButton.parent('.news').append('<p class="new-content">'+ content[0].body +'</p>')
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>
