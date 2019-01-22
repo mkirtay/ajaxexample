@@ -10,13 +10,12 @@
     <title>Ajax Example</title>
 </head>
 <body>
+<input type="text" class="input-search" placeholder="Search for title">
 <div class="news-container"></div>
 
 <script src="jquery.js"></script>
 <script>
     $(document).ready(function () {
-
-        console.log( location.href )
 
         $.ajax({
             type: "GET",
@@ -45,6 +44,23 @@
                     thisButton.parent('.news').append('<p class="new-content">'+ content[0].body +'</p>')
                 }
             })
+        })
+
+        $('.input-search').on('keyup', function () {
+            var input = $('.input-search');
+            var filter = input.val().toUpperCase();
+            var title = $('.news__title');
+            for( i = 0; i < title.length; i++ ){
+                titleText = title.text();
+                console.log(filter);
+                console.log(titleText);
+                if( titleText.toUpperCase().indexOf( filter ) > -1 ){
+                    //indexof kullanımı indexof içine yazdıgımız metin titletext içinde aratıyoruz. eğer sonuç yoksa -1 dönüyor. Yani bu alan aradıgımız kelimeler varsa ekranda gösteriyor
+                    title[i].style.display = "";
+                }else {
+                    title[i].style.display = "none";
+                }
+            }
         })
     })
 </script>
